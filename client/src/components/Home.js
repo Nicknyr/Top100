@@ -14,11 +14,11 @@ const STYLES = styled.div`
 
     h1 {
         font-family: 'Rokkitt', serif;
-        color: snow;
         text-align: center;
         margin-top: 0;
         font-size: 3em;
         padding: .3em;
+        color: red;
     }
 
     .searchbar-container {
