@@ -18,7 +18,7 @@ const STYLES = styled.div`
         margin-top: 0;
         font-size: 3em;
         padding: .3em;
-        color: red;
+        color: snow;
     }
 
     .searchbar-container {
