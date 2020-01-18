@@ -4,6 +4,11 @@ import axios from 'axios';
 import "animate.css/animate.min.css";
 import ScrollAnimation from 'react-animate-on-scroll';
 
+ // #00C9FF
+ // #92FE9D
+ // #EA526F
+ // #75F4F4
+ // #F9DC5C
 
 const STYLES = styled.div`
     @import url('https://fonts.googleapis.com/css?family=Oswald|Rokkitt&display=swap');
@@ -16,24 +21,41 @@ const STYLES = styled.div`
         font-family: 'Rokkitt', serif;
         text-align: center;
         margin-top: 0;
-        font-size: 3em;
-        padding: .3em;
+        font-size: 2em;
+        padding: 1em .3em;
         color: snow;
+    }
+
+    .test {
+        background-image: linear-gradient(180deg,transparent 50%,rgba(249,157,120,.5) 0);
+        background-position-y: 2px;
+        background-position-x: 4px;
+        background-repeat: no-repeat;
+        -webkit-transition: .15s ease;
+        transition: .15s ease;
     }
 
     .searchbar-container {
         text-align: center;
-        padding: 1em;
         display: block;
+        overflow: auto;
+        width: 100%;
+
+        @media(min-width: 992px) {
+            width: 70%;
+        }
 
         input {
-            width: 500px;
+            width: 50%;
             height: 40px;
             font-size: 1.1em;
             padding-left: .5em;
             display: inline;
-            //border: 2px solid snow;
             vertical-align: bottom;
+
+            &:focus {
+                outline: none;
+            }
         }
     }
 
@@ -42,29 +64,12 @@ const STYLES = styled.div`
         flex-wrap: wrap;
         justify-content: center;
         width: 100%;
-        //justify-content: flex-start;
         margin: 0 auto;
     }
 
-    /*
-    .album-info {
-        border: 2px solid salmon;
-        margin: 2em .5em;
-        width: 25em;
-        text-align: center;
-
-        h3 {
-            font-size: 1.3em;
-        }
-
-        p {
-            font-size: 1.1em;
-        }
-    }
-    */
-
     .albums {
         display: flex;
+        overflow: auto;
     }
 
     .featured-album {
@@ -80,65 +85,103 @@ const STYLES = styled.div`
     .albums-ul {
         display: flex;
         flex-wrap: wrap;
-        //background: blue;
-        //width: 70%;
         justify-content: center;
         list-style-type: none;
         text-align: center;
         align-items: flex-end;
-        padding: 0;
+        padding-top: 5em;
         color: white;
         font-weight: bolder;
 
         h4 {
-            //padding: 1em .5em;
-            //background: black;
-            //align-self: center;
-            //margin: 0;
-            //font-family: 'Rokkitt', serif;
+            font-family: 'Rokkitt', serif;
+            text-align: left;
+            padding: .5em;
+            font-size: 1.3em;
+            color: #00C9FF;
+            line-height: 1.1;
         }
 
         li {
-            height: 30em;
-            width: 16em;
-            //background: lightgrey;
-            margin: 3em;
+            height: 33em;
+            width: 20em;
+            margin-top: 5em;
             justify-content: center;
             align-items: center;
-            border: 1px solid snow;
+            //border: 2px solid #282828;
+            //background: #282828;
+            background: #EA526F;
+            border-radius: 10px;
+
+            &:hover {
+                /*
+                -webkit-box-shadow: 5px 5px 5px 0px rgba(0,0,0,0.75);
+                -moz-box-shadow: 5px 5px 5px 0px rgba(0,0,0,0.75);
+                box-shadow: 5px 5px 5px 0px rgba(0,0,0,0.75);
+                */
+               -moz-box-shadow: 0px 0px 5px 4px #262626;
+               -webkit-box-shadow: 0px 0px 5px 4px #262626;
+               box-shadow: 0px 0px 5px 4px #262626;
+            }
+        
         }
 
         img {
-            //display: flex;
             align-items: flex-start;
             min-width: 100%;
         }
 
         p {
-            display: flex;
-            //background: yellow;
             margin-top: auto;
-            align-self: flex-end;
+            text-align: left;
+            padding: .5em;
+            font-size: 1.2em;
+        }
+
+        span {
+            margin-top: auto;
+            text-align: left;
+            font-size: 1em;
+            color: #F9DC5C;
+        }
+
+        @media(min-width: 768px) {
+            li {
+                margin: 3em;
+            }
         }
     }
 
     .details {
-       
+
+    }
+
+    .album-cover {
+        position: relative;
+    }
+
+    .album-cover img {
+        //filter: brightness(100%);
     }
 
     .number {
-        display: flex;
         justify-content: center;
         font-size: 2.2em;
-        width: 60px;
-        height: 60px;
+        width: 40px;
+        height: 40px;
         font-size:20px;
         color:#fff;
         text-align:center;
-        line-height:60px;
+        line-height:40px;
         margin: 0 auto;
-        border-radius: 30px;
-        background:#09f
+        border-radius: 20px;
+        background: #EA526F;
+        border: 1px solid snow;
+        position: absolute;
+        top: 2%;
+        left: 2%;
+        filter: brightness(100%);
+
     }
 
         p {
@@ -150,11 +193,10 @@ const STYLES = styled.div`
 `;
 
 const BUTTON = styled.button`
+    font-family: 'Oswald', sans-serif;
     height: 46px;
     width: 4em;
-    background: #09F;
-    //border: 2px solid snow;
-    font-family: 'Rokkitt', serif;
+    background: #EA526F;
     color: snow;
     font-size: 22px;
     margin: 0;
@@ -164,7 +206,15 @@ const BUTTON = styled.button`
         filter: brightness(90%);
         cursor: pointer;
     }
+
+    &:focus {
+        outline: none;
+    }
+
+
 `;
+
+
 
 class Home extends Component {
     constructor(props) {
@@ -175,11 +225,9 @@ class Home extends Component {
         };
     }
 
-    
     componentDidMount = () => {
         axios.get('https://itunes.apple.com/us/rss/topalbums/limit=100/json')
             .then((res) => {
-                //console.log(res.data.feed.entry[0].title.label);
                 this.setState({
                     data: res.data.feed.entry
                 })
@@ -189,30 +237,38 @@ class Home extends Component {
             })
     };
 
-    render() {
-        const data = this.state.data;
+    sortByDate = () => {
+        this.state.data.sort((a, b) => {
+            return a.release_date - b.release_date;
+        });
+    }
 
-    
+    render() {
+       const data = this.state.data;
+      
         let albumData = data.map((item, key) => {
+            let songLink = item.id.label;
             return (
                 <ScrollAnimation animateIn='fadeIn' duration="2">
                     <li className="details">
-                        <img src={item['im:image'][2].label} width="250"/>
+                        <div className="album-cover">
+                            <a href={songLink}>
+                                <img src={item['im:image'][2].label} width="200"/>
+                                <div className="number">{key + 1}</div>
+                            </a>
+                        </div>
                         <h4>{item.title.label}</h4>
                         {/*<p>{item['im:artist'].label}</p>*/}
-                        <p>Genre: {item.category.attributes.label}</p>
-                        <p>Release Date: {item['im:releaseDate'].attributes.label}</p>
-                        <div className="number">{key + 1}</div>
+                        <p><span>Genre:</span> {item.category.attributes.label}</p>
+                        <p><span>Release Date:</span> {item['im:releaseDate'].attributes.label}</p>
                     </li>
                 </ScrollAnimation>
 
             );
         });
-        
 
         console.log(data);
-        
-        
+       
         return(
             <STYLES>
                 <div className="container">
