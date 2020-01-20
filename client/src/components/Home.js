@@ -4,6 +4,8 @@ import axios from 'axios';
 import "animate.css/animate.min.css";
 import ScrollAnimation from 'react-animate-on-scroll';
 import SearchBar from './Searchbar';
+import Albums from './Albums';
+import SortedAlbums from './SortedAlbums';
 
  // #00C9FF
  // #92FE9D
@@ -182,18 +184,6 @@ class Home extends Component {
         };
     }
 
-    componentDidMount = () => {
-        axios.get('https://itunes.apple.com/us/rss/topalbums/limit=100/json')
-            .then((res) => {
-                this.setState({
-                    data: res.data.feed.entry
-                })
-            })
-            .catch((err) => {
-                console.log("Error : " + err);
-            })
-    };
-
     sortButton = (e) => {
         this.setState(prevState => ({
             sortByDate: !prevState.sortByDate
@@ -201,58 +191,6 @@ class Home extends Component {
     }
 
     render() {
-       const data = this.state.data;
-        // Albums sorted by rank, not date
-        let albumData = data.map((item, key) => {
-            let songLink = item.id.label;
-            return (
-                <ScrollAnimation animateIn='fadeIn' duration="2">
-                    <li className="details">
-                        <div className="album-cover">
-                            <a href={songLink}>
-                                <img src={item['im:image'][2].label} width="200"/>
-                                <div className="number">{key + 1}</div>
-                            </a>
-                        </div>
-                        <h4>{item.title.label}</h4>
-                        <p><span>Genre:</span> {item.category.attributes.label}</p>
-                        <p><span>Release Date:</span> {item['im:releaseDate'].attributes.label}</p>
-                    </li>
-                </ScrollAnimation>
-
-            );
-        });
-
-        // Sorts JSON data in state by date
-       let sorted = data.sort((a,b) => {
-            return new Date(a["im:releaseDate"].label).getTime() - new Date(b["im:releaseDate"].label).getTime();
-       });
-       
-       // Albums sorted by date
-       let sortedAlbums = data.map((item, key) => {
-        let songLink = item.id.label;
-        return (
-            <ScrollAnimation animateIn='fadeIn' duration="2">
-                <li className="details">
-                    <div className="album-cover">
-                        <a href={songLink}>
-                            <img src={item['im:image'][2].label} width="200"/>
-                            <div className="number">{key + 1}</div>
-                        </a>
-                    </div>
-                    <h4>{item.title.label}</h4>
-                    <p><span>Genre:</span> {item.category.attributes.label}</p>
-                    <p><span>Release Date:</span> {item['im:releaseDate'].attributes.label}</p>
-                </li>
-            </ScrollAnimation>
-
-        );
-    });
-
-       //console.log("sorted : " + sorted);
-       //console.log(this.state.data);
-       //console.log(this.state.sortByDate);
-       
         return(
             <STYLES>
                 <div className="container">
@@ -261,8 +199,11 @@ class Home extends Component {
                     <div className="albums">
                         <div className="featured-album"></div>
                         <ul className="albums-ul">
-                            { this.state.sortByDate === true ? sortedAlbums : null }
-                            { this.state.sortByDate === false ? albumData : null}
+                            {this.state.sortByDate ? <SortedAlbums /> :  <Albums /> }
+                           
+                            
+                            {/* this.state.sortByDate === true ? sortedAlbums : null }
+        { this.state.sortByDate === false ? albumData : null */}
                         </ul>
                     </div>
                 </div>
