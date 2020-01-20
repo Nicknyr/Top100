@@ -3,6 +3,7 @@ import styled, { css } from 'styled-components';
 import axios from 'axios';
 import "animate.css/animate.min.css";
 import ScrollAnimation from 'react-animate-on-scroll';
+import SearchBar from './Searchbar';
 
  // #00C9FF
  // #92FE9D
@@ -17,29 +18,6 @@ const STYLES = styled.div`
     background: linear-gradient(90deg, #00C9FF 0%, #92FE9D 100%);
     height: 100%;
 
-    h1 {
-        font-family: 'Rokkitt', serif;
-        text-align: center;
-        margin-top: 0;
-        font-size: 2em;
-        padding: 1em .3em;
-        color: snow;
-    }
-    /*
-    h1::before {
-        content: "";
-        position: absolute;
-        bottom: 2px;
-        left: 0;
-        right: 0;
-        top: calc(100% - 10px);
-        background: red;
-        z-index: -1;
-        transition: all 120ms ease-in-out;
-    }   
-    */
-    }
-
     .test {
         background-image: linear-gradient(180deg,transparent 50%,rgba(249,157,120,.5) 0);
         background-position-y: 2px;
@@ -47,30 +25,6 @@ const STYLES = styled.div`
         background-repeat: no-repeat;
         -webkit-transition: .15s ease;
         transition: .15s ease;
-    }
-
-    .searchbar-container {
-        text-align: center;
-        display: block;
-        overflow: auto;
-        width: 100%;
-
-        @media(min-width: 992px) {
-            width: 70%;
-        }
-
-        input {
-            width: 50%;
-            height: 40px;
-            font-size: 1.1em;
-            padding-left: .5em;
-            display: inline;
-            vertical-align: bottom;
-
-            &:focus {
-                outline: none;
-            }
-        }
     }
 
     .container {
@@ -217,29 +171,6 @@ const STYLES = styled.div`
     }
 `;
 
-const BUTTON = styled.button`
-    font-family: 'Oswald', sans-serif;
-    height: 46px;
-    width: 4em;
-    background: #EA526F;
-    color: snow;
-    font-size: 22px;
-    margin: 0;
-    display: inline-block;
-
-    &:hover {
-        filter: brightness(90%);
-        cursor: pointer;
-    }
-
-    &:focus {
-        outline: none;
-    }
-
-
-`;
-
-
 
 class Home extends Component {
     constructor(props) {
@@ -326,14 +257,7 @@ class Home extends Component {
             <STYLES>
                 <div className="container">
                     <div className="border-top"></div>
-                    <div className="searchbar-container">
-                        <h1>iTunes Top 100 Songs</h1>
-                        <form>
-                            <input type='text' placeholder="Search albums"/>
-                            <BUTTON type="button" value="search">Search</BUTTON>
-                        </form>
-                        <button onClick={() => this.sortButton()}>Sort by Date</button>
-                    </div>
+                    <SearchBar click={() => this.sortButton()}/>
                     <div className="albums">
                         <div className="featured-album"></div>
                         <ul className="albums-ul">
