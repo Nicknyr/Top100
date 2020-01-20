@@ -25,6 +25,20 @@ const STYLES = styled.div`
         padding: 1em .3em;
         color: snow;
     }
+    /*
+    h1::before {
+        content: "";
+        position: absolute;
+        bottom: 2px;
+        left: 0;
+        right: 0;
+        top: calc(100% - 10px);
+        background: red;
+        z-index: -1;
+        transition: all 120ms ease-in-out;
+    }   
+    */
+    }
 
     .test {
         background-image: linear-gradient(180deg,transparent 50%,rgba(249,157,120,.5) 0);
@@ -170,7 +184,8 @@ const STYLES = styled.div`
         width: 40px;
         height: 40px;
         font-size:20px;
-        color:#fff;
+        font-weight: bolder;
+        color: snow;
         text-align:center;
         line-height:40px;
         margin: 0 auto;
@@ -189,6 +204,16 @@ const STYLES = styled.div`
             margin: 0 auto;
             display: block;
         }
+    }
+
+    .border-top {
+        //border-width: 10px 0 0;
+        //border-top-style: solid;
+        //-o-border-image: linear-gradient(139deg, #EA526F, #00C9FF, #75F4F4, #F9DC5C) 3;
+        //border-image: linear-gradient(139deg, #EA526F, #00C9FF, #75F4F4, #F9DC5C) 3;
+        background: #EA526F;
+        width: 100%;
+        height: 6px;
     }
 `;
 
@@ -221,7 +246,8 @@ class Home extends Component {
         super(props);
 
         this.state = {
-            data: []
+            data: [],
+            sortByDate: false
         };
     }
 
@@ -237,15 +263,15 @@ class Home extends Component {
             })
     };
 
-    sortByDate = () => {
-        this.state.data.sort((a, b) => {
-            return a.release_date - b.release_date;
-        });
+    sortButton = (e) => {
+        this.setState(prevState => ({
+            sortByDate: !prevState.sortByDate
+        }));
     }
 
     render() {
        const data = this.state.data;
-      
+        // Albums sorted by rank, not date
         let albumData = data.map((item, key) => {
             let songLink = item.id.label;
             return (
@@ -258,7 +284,6 @@ class Home extends Component {
                             </a>
                         </div>
                         <h4>{item.title.label}</h4>
-                        {/*<p>{item['im:artist'].label}</p>*/}
                         <p><span>Genre:</span> {item.category.attributes.label}</p>
                         <p><span>Release Date:</span> {item['im:releaseDate'].attributes.label}</p>
                     </li>
@@ -267,22 +292,53 @@ class Home extends Component {
             );
         });
 
-        console.log(data);
+        // Sorts JSON data in state by date
+       let sorted = data.sort((a,b) => {
+            return new Date(a["im:releaseDate"].label).getTime() - new Date(b["im:releaseDate"].label).getTime();
+       });
+       
+       // Albums sorted by date
+       let sortedAlbums = data.map((item, key) => {
+        let songLink = item.id.label;
+        return (
+            <ScrollAnimation animateIn='fadeIn' duration="2">
+                <li className="details">
+                    <div className="album-cover">
+                        <a href={songLink}>
+                            <img src={item['im:image'][2].label} width="200"/>
+                            <div className="number">{key + 1}</div>
+                        </a>
+                    </div>
+                    <h4>{item.title.label}</h4>
+                    <p><span>Genre:</span> {item.category.attributes.label}</p>
+                    <p><span>Release Date:</span> {item['im:releaseDate'].attributes.label}</p>
+                </li>
+            </ScrollAnimation>
+
+        );
+    });
+
+       //console.log("sorted : " + sorted);
+       //console.log(this.state.data);
+       //console.log(this.state.sortByDate);
        
         return(
             <STYLES>
                 <div className="container">
+                    <div className="border-top"></div>
                     <div className="searchbar-container">
                         <h1>iTunes Top 100 Songs</h1>
                         <form>
                             <input type='text' placeholder="Search albums"/>
                             <BUTTON type="button" value="search">Search</BUTTON>
                         </form>
+                        <button onClick={() => this.sortButton()}>Sort by Date</button>
                     </div>
                     <div className="albums">
                         <div className="featured-album"></div>
                         <ul className="albums-ul">
-                            {albumData}
+                            { this.state.sortByDate === true ? sortedAlbums : null }
+                            { this.state.sortByDate === false ? albumData : null}
                         </ul>
                     </div>
                 </div>
