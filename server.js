@@ -1,10 +1,17 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const dotenv = require("dotenv");
 const request = require("request");
 const bodyParser = require('body-parser');
 const app = express();
 
-mongoose.connect("mongodb://top100:Rangers88@ds263928.mlab.com:63928/top100", {
+// Sets up .env variables for username and password to DB
+dotenv.config();
+const USERNAME = process.env.USERNAME;
+const KEY = process.env.KEY;
+
+// Connects to DB using username and password variables
+mongoose.connect(`mongodb://${USERNAME}:${KEY}@ds263928.mlab.com:63928/top100`, {
   useNewUrlParser: true
 }, function(err) {
     if(err) {
@@ -15,7 +22,7 @@ mongoose.connect("mongodb://top100:Rangers88@ds263928.mlab.com:63928/top100", {
     }
 });
 
-
+// Defines a Schema for albums
 const albumSchema = new mongoose.Schema({
   title: String,
   image: String,
@@ -23,8 +30,10 @@ const albumSchema = new mongoose.Schema({
   releaseDate: Date
 });
 
+// Creates a Model using albumSchema Schema
 const Album = mongoose.model("Album", albumSchema);
 
+// Creates albums item in DB
 Album.create({
   title: "My Album",
   image: "none",
@@ -39,7 +48,7 @@ Album.create({
     }
 });
 
-
+// Example API call that came with boilerplate
 app.get('/api/customers', (req, res) => {
   const customers = [
     {id: 1, firstName: 'John', lastName: 'Doe'},
