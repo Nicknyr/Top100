@@ -17,7 +17,7 @@ const STYLES = styled.div`
     @import url('https://fonts.googleapis.com/css?family=Oswald|Rokkitt&display=swap');
     font-family: 'Rokkitt', serif;
     //font-family: 'Oswald', sans-serif;
-    background: linear-gradient(90deg, #00C9FF 0%, #92FE9D 100%);
+    //background: linear-gradient(90deg, #00C9FF 0%, #92FE9D 100%);
     height: 100%;
 
     .test {
@@ -171,6 +171,45 @@ const STYLES = styled.div`
         width: 100%;
         height: 6px;
     }
+
+    .intro {
+        background: #EA526F;
+        width: 33%;
+        margin: 3em auto;
+        border-radius: 20px;
+        //padding: 1em;
+
+        p {
+            color: snow;
+            font-size: 1.3em;
+            padding: 1em;
+            line-height: 1.2;
+            //font-family: 'Oswald', sans-serif;
+        }
+        
+    }
+`;
+
+const BUTTON = styled.button`
+    font-family: 'Oswald', sans-serif;
+    height: 3em;
+    width: 9em;
+    background: #00C9FF;
+    color: #F9DC5C;
+    border: none;
+    color: snow;
+    font-size: 16px;
+    display: block;
+    margin: 0 auto;
+
+    &:hover {
+        filter: brightness(90%);
+        cursor: pointer;
+    }
+
+    &:focus {
+        outline: none;
+    }
 `;
 
 
@@ -180,14 +219,43 @@ class Home extends Component {
 
         this.state = {
             data: [],
-            sortByDate: false
+            genres: [],
+            sortByDate: false,
+            sortButton: 'Date'
         };
     }
+
+    componentDidMount = () => {
+        axios.get('https://itunes.apple.com/us/rss/topalbums/limit=100/json')
+            .then((res) => {
+                this.setState({
+                    data: res.data.feed.entry,
+                    genres: res.data.feed.entry.map((item, key) => {
+                        return item.category.attributes.label
+                    })
+                })
+            })
+            .catch((err) => {
+                console.log("Error : " + err);
+            })
+    };
 
     sortButton = (e) => {
         this.setState(prevState => ({
             sortByDate: !prevState.sortByDate
         }));
+
+        if(this.state.sortByDate === true) {
+            this.setState({
+                sortButton: 'Date'
+            });
+        }
+        else {
+            this.setState({
+                sortButton: 'Top 100'
+            })
+        }
+    
     }
 
     render() {
@@ -195,15 +263,25 @@ class Home extends Component {
             <STYLES>
                 <div className="container">
                     <div className="border-top"></div>
-                    <SearchBar click={() => this.sortButton()}/>
+                    <SearchBar 
+                        click={() => this.sortButton()} 
+                        data={this.state.data}
+                        genres={this.state.genres}
+                    />
+
+                    <ScrollAnimation animateIn='fadeIn' duration="2">
+                        <div className="intro">
+                            <p>
+                                View today's top 100 iTunes songs, click the album cover for more info, or toggle the results to view the albums in order of release date.
+                            </p>
+                            <BUTTON onClick={() => this.sortButton()}>Sort by {this.state.sortButton}</BUTTON>
+                        </div>
+                    </ScrollAnimation>
+                
                     <div className="albums">
                         <div className="featured-album"></div>
                         <ul className="albums-ul">
                             {this.state.sortByDate ? <SortedAlbums /> :  <Albums /> }
-                           
-                            
-                            {/* this.state.sortByDate === true ? sortedAlbums : null }
-        { this.state.sortByDate === false ? albumData : null */}
                         </ul>
                     </div>
                 </div>

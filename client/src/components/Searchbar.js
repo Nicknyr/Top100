@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import styled, { css } from 'styled-components';
+import axios from 'axios';
+import downshift from 'downshift';
 
 const STYLES = styled.div`
     width: 100%;
@@ -86,10 +88,13 @@ class SearchBar extends Component {
         super(props);
 
         this.state = {
-
+            titles: '',
+            genres: ''
         };
     }
+
     render() {
+       console.log('genres : ' + this.props.genres);
         return(
             <STYLES>
                 <div className="container">
@@ -99,7 +104,6 @@ class SearchBar extends Component {
                             <input type='text' placeholder="Search albums"/>
                             <BUTTON type="button" value="search">Search</BUTTON>
                         </form>
-                        <button onClick={this.props.click}>Sort by Date</button>
                     </div>
                 </div>
             </STYLES>
