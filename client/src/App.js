@@ -26,13 +26,9 @@ class App extends Component {
   render() {
     return (
       <STYLES>
-        {/*
         <div className="App">
           <Home />
         </div>
-         */}
-
-         <DownshiftExample />
       </STYLES>
     );
   }

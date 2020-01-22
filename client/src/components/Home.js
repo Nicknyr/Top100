@@ -6,6 +6,8 @@ import ScrollAnimation from 'react-animate-on-scroll';
 import SearchBar from './Searchbar';
 import Albums from './Albums';
 import SortedAlbums from './SortedAlbums';
+import Downshift from './Downshift';
+import DownshiftExample from './Downshift';
 
  // #00C9FF
  // #92FE9D
@@ -220,6 +222,7 @@ class Home extends Component {
         this.state = {
             data: [],
             genres: [],
+            artists: [],
             sortByDate: false,
             sortButton: 'Date'
         };
@@ -232,6 +235,9 @@ class Home extends Component {
                     data: res.data.feed.entry,
                     genres: res.data.feed.entry.map((item, key) => {
                         return item.category.attributes.label
+                    }),
+                    artists: res.data.feed.entry.map((item, key) => {
+                        return item["im:artist"].label
                     })
                 })
             })
@@ -263,11 +269,8 @@ class Home extends Component {
             <STYLES>
                 <div className="container">
                     <div className="border-top"></div>
-                    <SearchBar 
-                        click={() => this.sortButton()} 
-                        data={this.state.data}
-                        genres={this.state.genres}
-                    />
+
+                    <DownshiftExample data={this.state.data} genres={this.state.genres} artists={this.state.artists}/>
 
                     <ScrollAnimation animateIn='fadeIn' duration="2">
                         <div className="intro">
