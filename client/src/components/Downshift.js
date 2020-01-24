@@ -16,7 +16,8 @@ const STYLES = styled.div`
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
-        width: 100%;
+        width: 500px !important;
+        //width: 50% !important;
         margin: 0 auto;
     }
 
@@ -47,14 +48,16 @@ const STYLES = styled.div`
         text-align: center;
         display: block;
         overflow: auto;
-        width: 100%;
+        width: 500px;
+        //width: 100%;
 
         @media(min-width: 992px) {
-            width: 70%;
+            //width: 70%;
         }
 
         input {
-            width: 50%;
+            //width: 80%;
+            width: 80%;
             height: 40px;
             font-size: 1.1em;
             padding-left: .5em;
@@ -69,21 +72,27 @@ const STYLES = styled.div`
 
     .search-results {
         background: transparent;
-        width: auto;
+        width: 476px;
+        //width: 100%;
         margin: 0 auto;
         color: snow;
         font-size: 1.2em;
         text-align: left;
-        line-height: 1.3;
-        border: 2px solid #EA526F;
+        line-height: 1.7;
+        //border: 2px solid #EA526F;
         cursor: pointer;
+        font-style: italic;
+        overflow-y: scroll;
+        height: 150px;
+        padding: .5em 10px;
+        
     }
 `;
 
     const BUTTON = styled.button`
     font-family: 'Oswald', sans-serif;
     height: 46px;
-    width: 4em;
+    width: 17%;
     background: #EA526F;
     color: snow;
     font-size: 22px;
@@ -127,20 +136,23 @@ const DownshiftExample = (props) => {
     }));
 
     let artists = props.artists;
-    let uniqueArtists = [... new Set(artists)];
+    let uniqueArtists = [... new Set(artists, genres)];
 
     const artistsItems = uniqueArtists.map(name => ({
-        values: name,
+        value: name,
         id: name
     }));
 
     const itemToString = item => item ? item.value : '';
-    const getGenres = value => value ? matchSorter(artistsItems, value, {keys: ['values'] }) : artistsItems;
+    const getArtists = value => value ? matchSorter(artistsItems, value, {keys: ['value'] }) : artistsItems;
+    const getGenres = value => value ? matchSorter(genreItems, value, {keys: ['value'] }) : genreItems;
+
 
         return (
             <STYLES>
                 <div className="container">
-                <Downshift itemToString={itemToString}>
+                {/*<h1>iTunes Top 100</h1>*/}
+                <Downshift itemToString={itemToString} >
                     {({
                         getLabelProps, 
                         getInputProps, 
@@ -155,25 +167,42 @@ const DownshiftExample = (props) => {
                         <div className="searchbar-container">
                             {/*<label {...getLabelProps()}>Search</label>*/}
                             <input {...getInputProps()}></input>
+                        
                             <BUTTON {...getToggleButtonProps()}>
                                 {isOpen ? 'close' : 'open '}
                             </BUTTON>
+                            
+                            {/*
                             { selectedItem ? (
                                 <button onClick={clearSelection}>x</button> 
                             ) : null }
-                            <ul className="search-results" {...getMenuProps}>
+                            */}
+
+                            <ul className="search-results" {...getMenuProps()}>
                                 {isOpen
+                                   ? getArtists(inputValue).map((item, index) => (
+                                        <li 
+                                            {...getItemProps({
+                                            item, 
+                                            key: item.id, 
+                                            style:{
+                                                backgroundColor: index === highlightedIndex ? 'rgba(0,0,0,.2)' : null
+                                            },
+                                            })}>{item.id}</li>
+                                    ))
+                                : null}
+                                {/*isOpen
                                    ? getGenres(inputValue).map((item, index) => (
                                         <li 
                                             {...getItemProps({
                                             item, 
                                             key: item.id, 
                                             style:{
-                                                backgroundColor: index === highlightedIndex ? 'red' : null
+                                                backgroundColor: index === highlightedIndex ? '#EA526F' : null
                                             },
                                             })}>{item.id}</li>
                                     ))
-                                : null}
+                                : null*/}
                             </ul>
                         </div>
                     )  

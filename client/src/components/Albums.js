@@ -17,6 +17,12 @@ const STYLES = styled.div`
         display: flex;
         overflow: auto;
     }
+
+    .number-container {
+        background: red;
+        height: 10em;
+        width: 100%;
+    }
 `;
 
 class Albums extends Component {
@@ -51,7 +57,9 @@ class Albums extends Component {
                         <div className="album-cover">
                             <a href={songLink}>
                                 <img src={item['im:image'][2].label} width="200"/>
-                                <div className="number">{key + 1}</div>
+                                <div className="number-container">
+                                    <div className="number">{key + 1}</div>
+                                </div>
                             </a>
                         </div>
                         <h4>{item.title.label}</h4>

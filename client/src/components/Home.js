@@ -136,8 +136,19 @@ const STYLES = styled.div`
         //filter: brightness(100%);
     }
 
+    .number-container {
+        background: rgba(0,0,0,.5);
+        height: 4em;
+        width: 100%;
+        position: absolute;
+        top: 0;
+        display: flex;
+        align-items: center;
+    }
+
     .number {
         justify-content: center;
+        display: flex;
         font-size: 2.2em;
         width: 40px;
         height: 40px;
@@ -151,10 +162,8 @@ const STYLES = styled.div`
         background: #EA526F;
         border: 1px solid snow;
         position: absolute;
-        top: 2%;
         left: 2%;
         filter: brightness(100%);
-
     }
 
         p {
@@ -261,7 +270,10 @@ class Home extends Component {
                 sortButton: 'Top 100'
             })
         }
-    
+    }
+
+    hi = (e) => {
+        console.log('suggestion clicked' + e);
     }
 
     render() {
@@ -270,7 +282,12 @@ class Home extends Component {
                 <div className="container">
                     <div className="border-top"></div>
 
-                    <DownshiftExample data={this.state.data} genres={this.state.genres} artists={this.state.artists}/>
+                    <DownshiftExample 
+                        data={this.state.data} 
+                        genres={this.state.genres} 
+                        artists={this.state.artists}
+                        hi={this.hi}
+                    />
 
                     <ScrollAnimation animateIn='fadeIn' duration="2">
                         <div className="intro">
