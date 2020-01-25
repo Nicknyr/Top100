@@ -17,6 +17,12 @@ const STYLES = styled.div`
         display: flex;
         overflow: auto;
     }
+
+    h2 {
+        font-size: 2.2em;
+        margin-top: 1em;
+        margin-bottom: 1em;
+    }
 `;
 
 class SortedAlbums extends Component {
@@ -42,7 +48,7 @@ class SortedAlbums extends Component {
 
     render() {
         const data = this.state.data;
-
+        console.log(data);
         // Sorts JSON data in state by date
        let sorted = data.sort((a,b) => {
             return new Date(a["im:releaseDate"].label).getTime() - new Date(b["im:releaseDate"].label).getTime();
@@ -56,7 +62,7 @@ class SortedAlbums extends Component {
                     <li className="details">
                         <div className="album-cover">
                             <a href={songLink}>
-                                <img src={item['im:image'][2].label} width="200"/>
+                                <img src={item['im:image'][2].label}/>
                                 <div className="number-container">
                                     <div className="number">{key + 1}</div>
                                 </div>
@@ -74,6 +80,7 @@ class SortedAlbums extends Component {
 
         return (
             <STYLES>
+                <h2>Top 100 by Release Date</h2>
                 <div className="container">
                     {sortedAlbums}
                 </div>         

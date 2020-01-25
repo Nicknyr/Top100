@@ -14,10 +14,10 @@ const STYLES = styled.div`
 
     .container {
         display: flex;
-        flex-wrap: wrap;
+        //flex-wrap: wrap;
         justify-content: center;
-        width: 500px !important;
-        //width: 50% !important;
+        //width: 500px !important;
+       // width: 100% !important;
         margin: 0 auto;
     }
 
@@ -48,16 +48,17 @@ const STYLES = styled.div`
         text-align: center;
         display: block;
         overflow: auto;
-        width: 500px;
+        //width: 500px;
         //width: 100%;
+        margin-top: 3em;
+        width: 100%;
 
         @media(min-width: 992px) {
-            //width: 70%;
+            width: 50%;
         }
 
         input {
-            //width: 80%;
-            width: 80%;
+            width: 70%;
             height: 40px;
             font-size: 1.1em;
             padding-left: .5em;
@@ -72,8 +73,9 @@ const STYLES = styled.div`
 
     .search-results {
         background: transparent;
-        width: 476px;
-        //width: 100%;
+        //width: 476px;
+        //width: 70%;
+        width: 60%;
         margin: 0 auto;
         color: snow;
         font-size: 1.2em;
@@ -85,6 +87,9 @@ const STYLES = styled.div`
         overflow-y: scroll;
         height: 150px;
         padding: .5em 10px;
+        margin-bottom: 3em;
+        height: auto;
+        max-height: 3em;
         
     }
 `;
@@ -92,10 +97,10 @@ const STYLES = styled.div`
     const BUTTON = styled.button`
     font-family: 'Oswald', sans-serif;
     height: 46px;
-    width: 17%;
+    width: auto;
     background: #EA526F;
     color: snow;
-    font-size: 22px;
+    font-size: 16px;
     margin: 0;
     display: inline-block;
 
@@ -172,11 +177,12 @@ const DownshiftExample = (props) => {
                                 {isOpen ? 'close' : 'open '}
                             </BUTTON>
                             
-                            {/*
+                            {/*}
                             { selectedItem ? (
-                                <button onClick={clearSelection}>x</button> 
+                                props.hi(inputValue)
                             ) : null }
                             */}
+                            
 
                             <ul className="search-results" {...getMenuProps()}>
                                 {isOpen
@@ -191,18 +197,6 @@ const DownshiftExample = (props) => {
                                             })}>{item.id}</li>
                                     ))
                                 : null}
-                                {/*isOpen
-                                   ? getGenres(inputValue).map((item, index) => (
-                                        <li 
-                                            {...getItemProps({
-                                            item, 
-                                            key: item.id, 
-                                            style:{
-                                                backgroundColor: index === highlightedIndex ? '#EA526F' : null
-                                            },
-                                            })}>{item.id}</li>
-                                    ))
-                                : null*/}
                             </ul>
                         </div>
                     )  

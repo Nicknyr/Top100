@@ -8,6 +8,7 @@ import Albums from './Albums';
 import SortedAlbums from './SortedAlbums';
 import Downshift from './Downshift';
 import DownshiftExample from './Downshift';
+import records from './assets/recordsdark.jpg';
 
  // #00C9FF
  // #92FE9D
@@ -37,6 +38,8 @@ const STYLES = styled.div`
         justify-content: center;
         width: 100%;
         margin: 0 auto;
+        //background: red;
+
     }
 
     .albums {
@@ -61,7 +64,7 @@ const STYLES = styled.div`
         list-style-type: none;
         text-align: center;
         align-items: flex-end;
-        padding-top: 5em;
+        //padding-top: 5em;
         color: white;
         font-weight: bolder;
 
@@ -77,7 +80,7 @@ const STYLES = styled.div`
         li {
             height: 33em;
             width: 20em;
-            margin-top: 5em;
+            margin-bottom: 5em;
             justify-content: center;
             align-items: center;
             //border: 2px solid #282828;
@@ -180,24 +183,62 @@ const STYLES = styled.div`
         //border-image: linear-gradient(139deg, #EA526F, #00C9FF, #75F4F4, #F9DC5C) 3;
         background: #EA526F;
         width: 100%;
-        height: 6px;
+        height: 2px;
     }
 
     .intro {
-        background: #EA526F;
-        width: 33%;
-        margin: 3em auto;
-        border-radius: 20px;
-        //padding: 1em;
+        padding: 1em;
+        margin: 0 auto;
+        height: 70vh;
+
+        h1 {
+            color: snow;
+            font-family: 'Rokkitt', serif;
+            font-size: 2.8em;
+            width: 100%;
+            text-align: center;
+            margin: 0 auto;
+        }
 
         p {
             color: snow;
-            font-size: 1.3em;
-            padding: 1em;
-            line-height: 1.2;
-            //font-family: 'Oswald', sans-serif;
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.2em;
+            //width: 30%;
+            margin: 1em auto;
+            line-height: 1.5;
+            text-align: center;
         }
+
+        .itunes-highlight {
+            color:  #00C9FF
+        }
+
+        .highlight {
+            color: #F9DC5C;
+        }
+            
+    @media(min-width: 425px) {
+        height: 50vh;
+
+        p {
+            width: 60%;
+        }
+    }
+
+    @media(min-width: 768px) {
+        p {
+            width: 40%;
+            font-size: 1.5em;
+        }
+    }
         
+}
+
+    .hero {
+        padding-top: 5em;
+        background-image:url(${records});
+        background-size: cover;
     }
 `;
 
@@ -211,7 +252,7 @@ const BUTTON = styled.button`
     color: snow;
     font-size: 16px;
     display: block;
-    margin: 0 auto;
+    margin: 1em auto;
 
     &:hover {
         filter: brightness(90%);
@@ -273,31 +314,39 @@ class Home extends Component {
     }
 
     hi = (e) => {
-        console.log('suggestion clicked' + e);
+        alert('suggestion clicked' + e);
+        let { data } = this.state;
+        let songToFind = e; 
+        console.log("hi : " + e);
+
+        let obj = data.find(o => o["im:name"] === 'ABBA');
+       
     }
 
     render() {
         return(
             <STYLES>
-                <div className="container">
-                    <div className="border-top"></div>
-
-                    <DownshiftExample 
+                <div className="border-top"></div>  
+                <div className="hero">
+                <ScrollAnimation animateIn='fadeIn' duration="2">
+                        <div className="intro">
+                            <h1>iTunes Top 100</h1>
+                            <p>
+                                Today's Top 100 purchased songs on <span className="itunes-highlight">iTunes</span>. View the list, search for an <span className="highlight">artist</span> or <span className="highlight">genre</span>, or toggle to sort songs by <span className="highlight">release date</span>.
+                            </p>
+                        </div>
+                    </ScrollAnimation>
+                </div>
+                <div className="container">     
+                
+                <DownshiftExample 
                         data={this.state.data} 
                         genres={this.state.genres} 
                         artists={this.state.artists}
                         hi={this.hi}
-                    />
-
-                    <ScrollAnimation animateIn='fadeIn' duration="2">
-                        <div className="intro">
-                            <p>
-                                View today's top 100 iTunes songs, click the album cover for more info, or toggle the results to view the albums in order of release date.
-                            </p>
-                            <BUTTON onClick={() => this.sortButton()}>Sort by {this.state.sortButton}</BUTTON>
-                        </div>
-                    </ScrollAnimation>
+                    />      
                 
+                <BUTTON onClick={() => this.sortButton()}>Sort by {this.state.sortButton}</BUTTON>
                     <div className="albums">
                         <div className="featured-album"></div>
                         <ul className="albums-ul">

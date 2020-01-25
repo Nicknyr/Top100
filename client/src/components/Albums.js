@@ -3,6 +3,9 @@ import styled, { css } from 'styled-components';
 import "animate.css/animate.min.css";
 import ScrollAnimation from 'react-animate-on-scroll';
 import axios from 'axios';
+import ReactPaginate from 'react-paginate';
+import Pagination from "react-js-pagination";
+
 
 const STYLES = styled.div`
     .container {
@@ -18,11 +21,13 @@ const STYLES = styled.div`
         overflow: auto;
     }
 
-    .number-container {
-        background: red;
-        height: 10em;
-        width: 100%;
+    h2 {
+        font-size: 2.2em;
+        margin-top: 1em;
+        margin-bottom: 1em;
     }
+
+    
 `;
 
 class Albums extends Component {
@@ -46,8 +51,9 @@ class Albums extends Component {
             })
     };
 
+
     render() {
-        const data = this.state.data;
+        let { data } = this.state;
         // Albums sorted by rank, not date
         let albumData = data.map((item, key) => {
             let songLink = item.id.label;
@@ -73,6 +79,7 @@ class Albums extends Component {
 
         return (
             <STYLES>
+                <h2>Current Top 100</h2>
                 <div className="container">
                     {albumData}
                 </div>         

@@ -11,6 +11,8 @@
     "react-animate-on-scroll": "^2.1.5",
     "react-autosuggest": "^9.4.3",
     "react-dom": "^16.2.0",
+    "react-js-pagination": "^3.0.2",
+    "react-paginate": "^6.3.2",
     "react-scripts": "1.0.17",
     "reset-css": "^5.0.1",
     "starwars-names": "^1.6.0"
